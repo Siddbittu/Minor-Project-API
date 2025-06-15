@@ -3,6 +3,15 @@ from pydantic import BaseModel
 import joblib
 import ipaddress
 import pandas as pd
+from fastapi.middleware.cors import CORSMiddleware
+# CORS settings
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # ⚠️ Allow all origins; replace with specific domains in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Load trained model, preprocessing pipeline, and label encoder
 model = joblib.load("network.pkl")
