@@ -5,6 +5,12 @@ import ipaddress
 import pandas as pd
 from fastapi.middleware.cors import CORSMiddleware
 # CORS settings
+# Load trained model, preprocessing pipeline, and label encoder
+model = joblib.load("network.pkl")
+preprocess = joblib.load("preprocess.pkl")
+label_encoder = joblib.load("label_encoder.pkl")
+
+app = FastAPI(title="Network Issue Detection API")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # ⚠️ Allow all origins; replace with specific domains in production
@@ -12,14 +18,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Load trained model, preprocessing pipeline, and label encoder
-model = joblib.load("network.pkl")
-preprocess = joblib.load("preprocess.pkl")
-label_encoder = joblib.load("label_encoder.pkl")
-
-app = FastAPI(title="Network Issue Detection API")
-
 # Pydantic model for request validation
 class NetworkInput(BaseModel):
     timestamp: str
